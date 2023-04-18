@@ -2,6 +2,6 @@
  :deps {org.clojure/clojure {:mvn/version "1.10.0"}
         org.clojure/java.jdbc {:mvn/version "0.7.12"}
         mysql/mysql-connector-java {:mvn/version "8.0.30"}
-        com.github.seancorfield/honeysql {:mvn/version "2.3.911"}}
- }
+        com.github.seancorfield/honeysql {:mvn/version "2.3.911"}}}
+ 
 

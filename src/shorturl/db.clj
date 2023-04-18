@@ -1,23 +1,30 @@
 (ns shorturl.db
   (:require [clojure.java.jdbc :as j]
             [honey.sql :as sql]
-            [honey.sql.helpers :refer :all])
-)
+            [honey.sql.helpers :refer :all]
+            [clojure.edn :as edn]))
 
-(def mysql-db {:host "aws.connect.psdb.cloud"
-               :dbtype "mysql"
-               :dbname "test-url-shortener"
-               :user "q6fpmhvhh082ksz8z7tn"
-               :password "pscale_pw_2q57gpe3Zx85cPFs8F1V00OsytNVaquOBLDvwQUYHN4"})
+; Read a config file ("edn file") as a map
+(defn read-config [path]
+  (edn/read-string (slurp path)))
 
-;; (j/query mysql-db
-;;          ["select * from fruit where appearance = ?" "rosy"]
-;;          {:row-fn :cost})
+(read-config "deps.edn")
 
-(defn get-redirects [] (j/query mysql-db (-> (select :*)
-                                              (from :redirects)
-    ;; (where [:= :foo.a "baz"])
-                                              (sql/format))))
+(read-config "db-creds.dev.edn")
+
+(def mysql-db (read-config "db-creds.dev.edn"))
+
+(defn query [q] 
+  (j/query mysql-db q))
+
+(defn insert! [q] 
+  (j/db-do-prepared mysql-db q))
+
+(defn get-redirects []
+  (query
+   (-> (select :*)
+       (from :redirects)
+       (sql/format))))
 
 (get-redirects)
 

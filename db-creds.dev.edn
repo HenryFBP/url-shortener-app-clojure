@@ -1,0 +1,6 @@
+;; Put your planetscale.com connection info here
+{:host "aws.connect.psdb.cloud"
+ :dbtype "mysql"
+ :dbname "test-url-shortener"
+ :user "exampleUsername"
+ :password "examplePassword"}
